@@ -50,6 +50,26 @@ void push_front(LinkedList* list, int value) {
     }
     list -> size++;
 }
+
+// function to remove and return the first element of the linked list
+int pop_front(LinkedList* list) {
+    if (list->head == NULL) { //Check if the list is empty — if yes, you can handle it by returning an error value or exiting.
+        fprintf(stderr, "Error: pop_front from empty list\n");
+        exit(EXIT_FAILURE);  // or handle differently
+    }
+    Node* temp = list->head; // Store the current head
+    int value  = temp -> data;
+
+    list -> head = temp -> node; //Move head pointer to the next node.
+    free(temp); // Free the old head node
+    list -> size--; // Decrease the size of the list
+
+    if (list -> head == NULL) {
+        list -> tail = NULL; // If the list is now empty, set tail to NULL
+    }
+
+    return value; // Return the value of the popped node
+}
 int main(void) {
     LinkedList list;
     init_list(&list);
@@ -58,7 +78,9 @@ int main(void) {
     push_front(&list, 20);
     push_front(&list, 30);
 
-    printf("Size after push_front x3: %d\n", size(&list)); // Should print 3
+    printf("Size after push_front: %d\n", size(&list)); // Should print 3
+    printf("Pop front: %d\n", pop_front(&list));  // Should print 30
+    printf("Pop front: %d\n", pop_front(&list));  // Should print 20
     printf("Is empty? %s\n", isEmpty(&list) ? "true" : "false");  // Should print false
 
     // Let's print the list front to back manually to check correctness
